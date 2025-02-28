@@ -1,4 +1,4 @@
-Project Group 6: Market Expectations in the Cross-Section of Present Values
+FINM 32900 Project Group 6: Market Expectations in the Cross-Section of Present Values
 =============================================
 
 ## Project Description
@@ -11,7 +11,7 @@ Also, from their paper,
 
 > “Our approach attacks a challenging problem in empirical asset pricing: how does one exploit a wealth of predictors in relatively short time series? If the predictors number near or more than the number of observations, the standard ordinary least squares (OLS) forecaster will be poorly behaved or nonexistent (see Huber (1973)). Our solution is to use partial least squares (PLS; Wold (1975)), which is a simple regression-based procedure designed to parsimoniously forecast a single time series using a large panel of predictors. We use it to construct a univariate forecaster for market returns (or dividend growth) that is a linear combination of assets’ valuation ratios.”
 
-### Project Details
+### Project Specific Details
 
 * Task: Replicate Table 1
 * Data sources: CRSP and Compustat
@@ -39,6 +39,7 @@ Also, from their paper,
   - Run PLS regressions (3 stages)
 * Match table 1 results using data up to 2011
 * Pull data through latest available (end of 2024?) and re-run all portfolios/regressions/etc.
+* Provide summary statistics and charts that gives context to underlying data and results
 * Compare results from the paper vs results using current data
 
 ### Output Tasks
