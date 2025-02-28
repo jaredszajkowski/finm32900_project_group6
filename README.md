@@ -17,6 +17,25 @@ Also, from their paper,
 * Data sources: CRSP and Compustat
 * Citation: KELLY, B. and PRUITT, S. (2013), Market Expectations in the Cross-Section of Present Values. THE JOURNAL OF FINANCE, 68: 1721-1756. https://doi.org/10.1111/jofi.12060
 
+### Specifics From The Paper
+
+From the paper:
+
+> E. Data
+Our central empirical analysis examines market return and cash flow growth predictability by applying PLS to different cross-sections of valuation ratios. We use book-to-market ratios for Fama and French’s (1993) size- and value- sorted portfolios (in which U.S. stocks are divided into 6, 25, or 100 portfolios). Data files from Ken French’s website report monthly portfolio-level market equity value and annual portfolio book equity value, which we use to construct a monthly panel of portfolio book-to-market ratios. A book-to-market ratio in month t uses a portfolio’s total market capitalization at the end of month t and the latest observable annual book equity total for the portfolio. We assume that portfolio book equity in calendar year Y becomes observable after June of year Y + 1 following Fama and French (1993).
+
+We also consider a variety of alternative value ratio panels. First, we explore the usefulness of individual stock-level value ratios data for predicting future market returns. We also consider price-dividend ratios for size- and value- sorted portfolios in place of book-to-market ratios. Finally, we take our analysis to international data, using the country-level portfolio valuation ratios of Fama and French (1998).
+
+Our focus is on the 1930 to 2010 sample for U.S. data.17 The international sample is available from 1975 to 2010. U.S. market returns and dividend growth are for the CRSP value-weighted index. Individual stock data are from CRSP and Compustat. U.S. and international portfolio data are from Ken French’s website. Alternative predictors are from Amit Goyal’s website.
+
+Then for table 1:
+
+> Table I
+Market Return Predictions (1930 to 2010)
+We report in-sample and out-of-sample percentage R2 for PLS forecasts of 1-year and 1-month market returns from 1930 to 2010. The sets of predictor variables are 6, 25, and 100 book-to- market ratios of size- and value-sorted portfolios. Our out-of-sample procedure splits the sample in
+1980, uses the pre-1980 period as a training window, and recursively forecasts returns beginning in January 1980 (results for a wide range of alternative sample splits are shown in Figures 1 and 2). We also report p-values of three different in-sample test statistics. The first is the asymptotic predictive loading t-statistic from Kelly and Pruitt (2012), denoted “KP” in the table. For annual returns, this is calculated on every nonoverlapping set of residuals as described in the text. For annual returns we also report Hodrick (1992) and Newey and West (1987) p-values. For out-of- sample tests we report p-values for Clark and McCracken’s (2001; denoted “CM” in the table) ENC-NEW encompassing test statistic. This tests the null hypothesis of no forecast improvement over the historical mean. For annual returns we follow Clark and McCracken (2005) and use
+Newey-West standard errors with 12 lags.
+
 ## Project Tasks
 
 ### Project Set Up Tasks
