@@ -21,7 +21,7 @@ Also, from their paper,
 
 From the paper:
 
-> E. Data
+> E. Data</br></br>
 > &nbsp;&nbsp;Our central empirical analysis examines market return and cash flow growth predictability by applying PLS to different cross-sections of valuation ratios. We use book-to-market ratios for Fama and French’s (1993) size- and value- sorted portfolios (in which U.S. stocks are divided into 6, 25, or 100 portfolios). Data files from Ken French’s website report monthly portfolio-level market equity value and annual portfolio book equity value, which we use to construct a monthly panel of portfolio book-to-market ratios. A book-to-market ratio in month t uses a portfolio’s total market capitalization at the end of month t and the latest observable annual book equity total for the portfolio. We assume that portfolio book equity in calendar year Y becomes observable after June of year Y + 1 following Fama and French (1993).</br>
 > &nbsp;&nbsp;We also consider a variety of alternative value ratio panels. First, we explore the usefulness of individual stock-level value ratios data for predicting future market returns. We also consider price-dividend ratios for size- and value- sorted portfolios in place of book-to-market ratios. Finally, we take our analysis to international data, using the country-level portfolio valuation ratios of Fama and French (1998).</br>
 > &nbsp;&nbsp;Our focus is on the 1930 to 2010 sample for U.S. data.17 The international sample is available from 1975 to 2010. U.S. market returns and dividend growth are for the CRSP value-weighted index. Individual stock data are from CRSP and Compustat. U.S. and international portfolio data are from Ken French’s website. Alternative predictors are from Amit Goyal’s website.
