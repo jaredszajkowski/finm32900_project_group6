@@ -241,6 +241,7 @@ vignettes/*.pdf
 \.pytest_cache/
 ~$*
 
+.doit.db
 .doit.db.db
 .doit-db.sqlite
 
