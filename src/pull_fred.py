@@ -51,6 +51,7 @@ series_to_pull = {
     # Open Market Operations
     "WSDONTL": "SOMA Sec Overnight Lending Volume",  # Millions, Converted to Billions below
     # Memorandum Items: Securities Lent to Dealers: Overnight Facility: Wednesday Level
+    "TB3MS": "3-Month Treasury Bill Rate"
 }
 
 series_descriptions = series_to_pull.copy()

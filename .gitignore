@@ -253,3 +253,5 @@ src/z_scratch_pipeline_template.ipynb
 
 # Ignore .insyncdl files used by Insync
 .insyncdl
+
+*.insyncdl

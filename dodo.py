@@ -116,23 +116,25 @@ def task_config():
     }
 
 
+##################################
+## Pull Data
+##################################
+
+# This is needed for risk free rate
 def task_pull_fred():
     """ """
     file_dep = [
         "./src/settings.py",
         "./src/pull_fred.py",
-        "./src/pull_ofr_api_data.py",
     ]
     targets = [
         DATA_DIR / "fred.parquet",
-        DATA_DIR / "ofr_public_repo_data.parquet",
     ]
 
     return {
         "actions": [
             "ipython ./src/settings.py",
             "ipython ./src/pull_fred.py",
-            "ipython ./src/pull_ofr_api_data.py",
         ],
         "targets": targets,
         "file_dep": file_dep,
@@ -146,6 +148,25 @@ def task_pull_fred():
         # to clean and forget the cheaper tasks.
     }
 
+# This is needed for F-F BE/ME portfolios
+def task_pull_ken_french_data():
+    """Pull Data from Ken French's Website"""
+
+    return {
+        "actions": [
+            "ipython src/settings.py",
+            "ipython src/pull_ken_french_data.py",
+        ],
+        "targets": [
+            Path(DATA_DIR) / "6_Portfolios_2x3.xlsx",
+            Path(DATA_DIR) / "25_Portfolios_5x5.xlsx",
+            Path(DATA_DIR) / "100_Portfolios_10x10.xlsx",
+        ],
+        "file_dep": ["./src/settings.py", "./src/pull_ken_french_data.py"],
+        "clean": True,
+        "verbosity": 2,
+    }
+
 
 ##############################$
 ## Demo: Other misc. data pulls
@@ -154,25 +175,19 @@ def task_pull_fred():
 def task_pull_other():
     """ """
     file_dep = [
-        # "./src/pull_bloomberg.py",
         "./src/pull_CRSP_Compustat.py",
         "./src/pull_CRSP_stock.py",
-        # "./src/pull_fed_yield_curve.py",
         ]
     file_output = [
-        # "bloomberg.parquet",
         "CRSP_Compustat.parquet",
         "CRSP_stock.parquet",
-        # "fed_yield_curve.parquet",
         ]
     targets = [DATA_DIR / file for file in file_output]
 
     return {
         "actions": [
-            # "ipython ./src/pull_bloomberg.py",
             "ipython ./src/pull_CRSP_Compustat.py",
             "ipython ./src/pull_CRSP_stock.py",
-            # "ipython ./src/pull_fed_yield_curve.py",
         ],
         "targets": targets,
         "file_dep": file_dep,
@@ -218,53 +233,38 @@ def task_example_plot():
     }
 
 
-def task_chart_repo_rates():
-    """Example charts for Chart Book"""
-    file_dep = [
-        "./src/pull_fred.py",
-        "./src/chart_relative_repo_rates.py",
-    ]
-    targets = [
-        DATA_DIR / "repo_public.parquet",
-        DATA_DIR / "repo_public.xlsx",
-        DATA_DIR / "repo_public_relative_fed.parquet",
-        DATA_DIR / "repo_public_relative_fed.xlsx",
-        OUTPUT_DIR / "repo_rates.html",
-        OUTPUT_DIR / "repo_rates_normalized.html",
-        OUTPUT_DIR / "repo_rates_normalized_w_balance_sheet.html",
-    ]
+# def task_chart_repo_rates():
+#     """Example charts for Chart Book"""
+#     file_dep = [
+#         "./src/pull_fred.py",
+#         "./src/chart_relative_repo_rates.py",
+#     ]
+#     targets = [
+#         DATA_DIR / "repo_public.parquet",
+#         DATA_DIR / "repo_public.xlsx",
+#         DATA_DIR / "repo_public_relative_fed.parquet",
+#         DATA_DIR / "repo_public_relative_fed.xlsx",
+#         OUTPUT_DIR / "repo_rates.html",
+#         OUTPUT_DIR / "repo_rates_normalized.html",
+#         OUTPUT_DIR / "repo_rates_normalized_w_balance_sheet.html",
+#     ]
 
-    return {
-        "actions": [
-            # "date 1>&2",
-            # "time ipython ./src/chart_relative_repo_rates.py",
-            "ipython ./src/chart_relative_repo_rates.py",
-        ],
-        "targets": targets,
-        "file_dep": file_dep,
-        "clean": True,
-    }
+#     return {
+#         "actions": [
+#             # "date 1>&2",
+#             # "time ipython ./src/chart_relative_repo_rates.py",
+#             "ipython ./src/chart_relative_repo_rates.py",
+#         ],
+#         "targets": targets,
+#         "file_dep": file_dep,
+#         "clean": True,
+#     }
 
 
 notebook_tasks = {
-    "01_example_notebook_interactive.ipynb": {
+    "01_Market_Expectations_In_The_Cross-Section_Of_Present_Values.ipynb": {
         "file_dep": [],
         "targets": [],
-    },
-    "02_example_with_dependencies.ipynb": {
-        "file_dep": ["./src/pull_fred.py"],
-        "targets": [Path(OUTPUT_DIR) / "GDP_graph.png"],
-    },
-    "03_public_repo_summary_charts.ipynb": {
-        "file_dep": [
-            "./src/pull_fred.py",
-            "./src/pull_ofr_api_data.py",
-            "./src/pull_public_repo_data.py",
-        ],
-        "targets": [
-            OUTPUT_DIR / "repo_rate_spikes_and_relative_reserves_levels.png",
-            OUTPUT_DIR / "rates_relative_to_midpoint.png",
-        ],
     },
 }
 
