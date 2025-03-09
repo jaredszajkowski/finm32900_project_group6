@@ -122,7 +122,7 @@ def task_config():
 
 # This is needed for risk free rate
 def task_pull_fred():
-    """ """
+    """ Pulls risk free rate information from FRED """
     file_dep = [
         "./src/settings.py",
         "./src/pull_fred.py",
@@ -150,7 +150,7 @@ def task_pull_fred():
 
 # This is needed for F-F BE/ME portfolios
 def task_pull_ken_french_data():
-    """Pull Data from Ken French's Website"""
+    """Pull Data from Ken French's Website """
 
     return {
         "actions": [
@@ -167,32 +167,51 @@ def task_pull_ken_french_data():
         "verbosity": 2,
     }
 
-
-##############################$
-## Demo: Other misc. data pulls
-##############################$
-
-def task_pull_other():
-    """ """
+# This is needed for CRSP value weighted index
+def task_pull_CRSP_index():
+    """ Pull CRSP Value-Weighted Index """
     file_dep = [
-        "./src/pull_CRSP_Compustat.py",
-        "./src/pull_CRSP_stock.py",
+        "./src/pull_CRSP_index.py",
         ]
     file_output = [
-        "CRSP_Compustat.parquet",
-        "CRSP_stock.parquet",
+        "crsp_value_weighted_index.csv",
         ]
     targets = [DATA_DIR / file for file in file_output]
 
     return {
         "actions": [
-            "ipython ./src/pull_CRSP_Compustat.py",
-            "ipython ./src/pull_CRSP_stock.py",
+            "ipython ./src/pull_CRSP_index.py",
         ],
         "targets": targets,
         "file_dep": file_dep,
         "clean": [],  # Don't clean these files by default.
     }
+
+##############################$
+## Demo: Other misc. data pulls
+##############################$
+
+# def task_pull_other():
+#     """ """
+#     file_dep = [
+#         "./src/pull_CRSP_Compustat.py",
+#         "./src/pull_CRSP_stock.py",
+#         ]
+#     file_output = [
+#         "CRSP_Compustat.parquet",
+#         "CRSP_stock.parquet",
+#         ]
+#     targets = [DATA_DIR / file for file in file_output]
+
+#     return {
+#         "actions": [
+#             "ipython ./src/pull_CRSP_Compustat.py",
+#             "ipython ./src/pull_CRSP_stock.py",
+#         ],
+#         "targets": targets,
+#         "file_dep": file_dep,
+#         "clean": [],  # Don't clean these files by default.
+#     }
 
 
 def task_summary_stats():

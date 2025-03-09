@@ -2,8 +2,20 @@ import wrds
 import pandas as pd
 from decouple import config
 import os
+from settings import config
+from pathlib import Path
 
-def pull_crsp_value_weighted_index(start_date='1930-01-01', end_date='2024-01-01'):
+
+DATA_DIR = config("DATA_DIR")
+START_DATE = config("START_DATE")
+END_DATE = config("END_DATE")
+
+def pull_crsp_value_weighted_index(
+        data_dir=DATA_DIR,
+        log=True,
+        start_date=START_DATE, 
+        end_date=END_DATE
+):
     """
     Pulls the CRSP value-weighted index monthly returns from WRDS.
     
@@ -45,13 +57,21 @@ def pull_crsp_value_weighted_index(start_date='1930-01-01', end_date='2024-01-01
     # Convert date to datetime format
     df['date'] = pd.to_datetime(df['date'])
 
+    # Save to CSV
+    csv_path = (
+        data_dir / "crsp_value_weighted_index.csv"
+    )
+
+    df.to_csv(csv_path, index=False)
+    # crsp_data.to_csv("crsp_value_weighted_index.csv", index=False)
+
+    print("CRSP value-weighted index data saved to crsp_value_weighted_index.csv")
+    
+    if log:
+        print(f"CSV file saved to {csv_path}")
+
     return df
 
 if __name__ == "__main__":
     # Pull CRSP value-weighted index data
     crsp_data = pull_crsp_value_weighted_index()
-    
-    # Save to CSV
-    crsp_data.to_csv("crsp_value_weighted_index.csv", index=False)
-    
-    print("CRSP value-weighted index data saved to crsp_value_weighted_index.csv")

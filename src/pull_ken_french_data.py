@@ -1,5 +1,3 @@
-""" """
-
 import warnings
 from pathlib import Path
 
@@ -20,6 +18,20 @@ def pull_ken_french_excel(
     start_date=START_DATE,
     end_date=END_DATE,
 ):
+    """
+    Pulls the Ken French portfolio data..
+    
+    Parameters:
+    - dataset_name (str): Name of the dataset to pull.
+    - data_dir (str): Directory to save the Excel file.
+    - log (bool): Whether to log the path of the saved Excel file.
+    - start_date (str): Start date in 'YYYY-MM-DD' format.
+    - end_date (str): End date in 'YYYY-MM-DD' format.
+    
+    Returns:
+    - Excel File: Contains date, return, and other key fields.
+    """
+
     data_dir = Path(data_dir)
     # Suppress the specific FutureWarning about date_parser
     with warnings.catch_warnings():
