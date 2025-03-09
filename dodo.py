@@ -163,7 +163,7 @@ def task_pull_ken_french_data():
             Path(DATA_DIR) / "100_Portfolios_10x10.xlsx",
         ],
         "file_dep": ["./src/settings.py", "./src/pull_ken_french_data.py"],
-        "clean": True,
+        "clean": [],  # Don't clean these files by default.
         "verbosity": 2,
     }
 
