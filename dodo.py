@@ -188,30 +188,8 @@ def task_pull_CRSP_index():
     }
 
 ##############################$
-## Demo: Other misc. data pulls
+## Load Data
 ##############################$
-
-# def task_pull_other():
-#     """ """
-#     file_dep = [
-#         "./src/pull_CRSP_Compustat.py",
-#         "./src/pull_CRSP_stock.py",
-#         ]
-#     file_output = [
-#         "CRSP_Compustat.parquet",
-#         "CRSP_stock.parquet",
-#         ]
-#     targets = [DATA_DIR / file for file in file_output]
-
-#     return {
-#         "actions": [
-#             "ipython ./src/pull_CRSP_Compustat.py",
-#             "ipython ./src/pull_CRSP_stock.py",
-#         ],
-#         "targets": targets,
-#         "file_dep": file_dep,
-#         "clean": [],  # Don't clean these files by default.
-#     }
 
 
 def task_summary_stats():
