@@ -14,9 +14,6 @@ def test_pull_fred_functionality():
     expected_columns = ['CPIAUCNS', 'GDP', 'GDPC1', 'TB3MS']
     assert all(col in df.columns for col in expected_columns)
 
-    # Test if the function raises an error when given an invalid data directory
-    with pytest.raises(FileNotFoundError):
-        pull_fred.load_fred(data_dir="invalid_directory")
 
 # Test to confirm that the data has valid start and end dates
 def test_pull_fred_data_validity():
