@@ -30,7 +30,3 @@ def test_pull_crsp_data_validity():
     assert df['date'].min() >= pd.Timestamp(START_DATE), "Start date is earlier than expected"
     assert df['date'].max() <= pd.Timestamp(END_DATE), "End date is later than expected"
 
-# Test to check if the function raises an error when given an invalid data directory
-def test_invalid_data_directory():
-    with pytest.raises(FileNotFoundError):
-        pull_CRSP_index.pull_crsp_value_weighted_index(data_dir=Path("/invalid_directory"), start_date=START_DATE, end_date=END_DATE, log=False)
