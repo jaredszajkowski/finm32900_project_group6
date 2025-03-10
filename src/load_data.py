@@ -39,7 +39,7 @@ def load_fred_data():
     else:
         df = pd.read_csv(csv_path, parse_dates=["DATE"]).set_index("DATE")
 
-    df = df['TB3MS'] / 12
+    df = df['TB3MS'] / 1200
     df = df[(df.index >= START_DATE) & (df.index <= END_DATE)]
     df = df.dropna()
 
