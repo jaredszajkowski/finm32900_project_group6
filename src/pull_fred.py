@@ -129,18 +129,13 @@ def pull_fred(start_date=START_DATE, end_date=END_DATE, ffill=True):
     # df_focused.isna().sum()
     # df_focused['WTREGEN'].plot()
     # df_focused['WTREGEN'].ffill().plot()
+
+    filedir = Path(DATA_DIR) 
+    filedir.mkdir(parents=True, exist_ok=True)
+    df_focused.to_parquet(filedir / "fred.parquet")
+    df_focused.to_csv(filedir / "fred.csv")
+
     return df_focused
-
-
-def load_fred(data_dir=DATA_DIR):
-    """
-    Must first run this module as main to pull and save data.
-    """
-    file_path = Path(data_dir) / "fred.parquet"
-    df = pd.read_parquet(file_path)
-    # df = pd.read_csv(file_path, parse_dates=["DATE"])
-    # df = df.set_index("DATE")
-    return df
 
 
 def demo():
