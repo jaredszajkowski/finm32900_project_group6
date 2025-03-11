@@ -10,16 +10,16 @@ import seaborn as sns
 
 sns.set()
 
-df = pull_fred.load_fred(data_dir=DATA_DIR)
+# df = pull_fred.load_fred(data_dir=DATA_DIR)
 
-(
-    100 * 
-    df[['CPIAUCNS', 'GDPC1']]
-    .rename(columns={'CPIAUCNS':'Inflation', 'GDPC1':'Real GDP'})
-    .dropna()
-    .pct_change(4)
-    ).plot()
-plt.title("Inflation and Real GDP, Seasonally Adjusted")
-plt.ylabel('Percent change from 12-months prior')
-filename = OUTPUT_DIR / 'example_plot.png'
-plt.savefig(filename);
+# (
+#     100 * 
+#     df[['CPIAUCNS', 'GDPC1']]
+#     .rename(columns={'CPIAUCNS':'Inflation', 'GDPC1':'Real GDP'})
+#     .dropna()
+#     .pct_change(4)
+#     ).plot()
+# plt.title("Inflation and Real GDP, Seasonally Adjusted")
+# plt.ylabel('Percent change from 12-months prior')
+# filename = OUTPUT_DIR / 'example_plot.png'
+# plt.savefig(filename);

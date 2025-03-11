@@ -84,7 +84,9 @@ def load_ken_french(dataset_name="6_Portfolios_2x3", weighting="value-weighted")
     if weighting == "value-weighted":
         sheet_name = "0"
     elif weighting == "equal-weighted":
-        sheet_name = "1"
+        sheet_name = "1"    
+    elif weighting == "BE_FYt-1_to_ME_June_t":
+        sheet_name = "7"
     else:
         raise ValueError("Invalid weighting: must be 'value-weighted' or 'equal-weighted'.")
 
