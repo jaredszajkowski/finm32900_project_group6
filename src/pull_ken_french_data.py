@@ -83,30 +83,26 @@ def load_returns(dataset_name, weighting="value-weighted", data_dir=DATA_DIR):
 
 
 def load_sheet(dataset_name, sheet_name: str = "0", data_dir=DATA_DIR):
-    """For example, for dataset_name = 'Portfolios_Formed_on_INV', the full data
-    is the description and the 7 tables of returns and properties.
+    """For example, for dataset_name = '6_Portfolios_2x3V', the full data
+    is the description and the 10 tables of returns and properties.
 
-    Portfolios Formed on INV
-    ------------------------
+    6 Portfolios 2x3
+    ----------------
 
-    This file was created by CMPT_EP_CFP_OP_INV_NI_AC_RETS using the 202412 CRSP
-    database. It contains value- and equal-weighted returns for portfolios
-    formed on INV. The portfolios are constructed at the end of June. INV,
-    investment, is the change in total assets from the fiscal year ending in
-    year t-2 to the fiscal year ending in t-1, divided by t-2 total assets.
-    Annual returns are from January to December. Missing data are indicated by
-    -99.99 or -999. The break points include utilities and include financials.
-    The portfolios include utilities and include financials. Copyright 2024
-    Eugene F. Fama and Kenneth R. French
+    This file was created by CMPT_ME_BEME_OP_INV_RETS using the 202412 CRSP database. It contains value- and equal-weighted returns for portfolios formed on ME and BEME. The portfolios are constructed at the end of June. BEME is book value at the last fiscal year end of the prior calendar year divided by ME at the end of December of the prior year. Annual returns are from January to December. Missing data are indicated by -99.99 or -999. The break points include utilities and include financials. The portfolios include utilities and include financials. Copyright 2024 Eugene F. Fama and Kenneth R. French
 
-    0 : Value Weight Returns -- Monthly (696 rows x 18 cols)
-    1 : Equal Weight Returns -- Monthly (696 rows x 18 cols)
-    2 : Value Weight Returns -- Annual from January to December (58 rows x 18 cols)
-    3 : Equal Weight Returns -- Annual from January to December (58 rows x 18 cols)
-    4 : Number of Firms in Portfolios (696 rows x 18 cols)
-    5 : Average Firm Size (696 rows x 18 cols)
-    6 : Value Weight Average of Natural Log of INV (58 rows x 18 cols)
+    0 : Average Value Weighted Returns -- Monthly (1129 rows x 6 cols)
+    1 : Average Equal Weighted Returns -- Monthly (1129 rows x 6 cols)
+    2 : Average Value Weighted Returns -- Annual (95 rows x 6 cols)
+    3 : Average Equal Weighted Returns -- Annual (95 rows x 6 cols)
+    4 : Number of Firms in Portfolios (1129 rows x 6 cols)
+    5 : Average Market Cap (1129 rows x 6 cols)
+    6 : For portfolios formed in June of year t   Value Weight Average of BE/ME Calculated for June of t to June of t+1 as:    Sum[ME(Mth) * BE(Fiscal Year t-1) / ME(Dec t-1)] / Sum[ME(Mth)]   Where Mth is a month from June of t to June of t+1   and BE(Fiscal Year t-1) is adjusted for net stock issuance to Dec t-1 (1129 rows x 6 cols)
+    7 : For portfolios formed in June of year t   Value Weight Average of BE_FYt-1/ME_June t Calculated for June of t to June of t+1 as:    Sum[ME(Mth) * BE(Fiscal Year t-1) / ME(Jun t)] / Sum[ME(Mth)]   Where Mth is a month from June of t to June of t+1   and BE(Fiscal Year t-1) is adjusted for net stock issuance to Jun t (1129 rows x 6 cols)
+    8 : For portfolios formed in June of year t   Value Weight Average of OP Calculated as:    Sum[ME(Mth) * OP(fiscal year t-1) / BE(fiscal year t-1)] / Sum[ME(Mth)]    Where Mth is a month from June of t to June of t+1 (727 rows x 6 cols)
+    9 : For portfolios formed in June of year t   Value Weight Average of investment (rate of growth of assets) Calculated as:    Sum[ME(Mth) * Log(ASSET(t-1) / ASSET(t-2) / Sum[ME(Mth)]    Where Mth is a month from June of t to June of t+1 (727 rows x 6 cols)
     """
+    
     if isinstance(sheet_name, int):
         sheet_name = str(sheet_name)
 
