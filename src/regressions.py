@@ -8,6 +8,10 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 save_path = os.path.join(script_dir, "../reports/plots/")  # ✅ Correct relative path
 os.makedirs(save_path, exist_ok=True)
 
+# DATA_DIR = config("DATA_DIR")
+# START_DATE = config("START_DATE")
+# END_DATE = config("END_DATE")
+
 def first_stage_regressions(v_df, y_series, h=1):
     """
     For each portfolio (each column in v_df), regress the valuation ratio at time t 
@@ -86,7 +90,7 @@ def third_stage_regression(F_series, y_series, h=1):
     model = sm.OLS(y_aligned, X).fit()
     return model
 
-def run_in_sample_pls(dataset_name, weighting="value-weighted", h=1):
+def run_in_sample_pls(dataset_name, weighting="value-weighted", h=1, end_date=None):
     """
     Runs the in-sample three-stage PLS procedure:
       1. Loads and aligns excess market returns (market return minus TB3MS) and Ken French portfolio data.
@@ -115,6 +119,14 @@ def run_in_sample_pls(dataset_name, weighting="value-weighted", h=1):
     
     print(f"Aligned data from {common_dates.min().date()} to {common_dates.max().date()}")
     print(f"Number of dates: {len(common_dates)}")
+
+    y_excess = y_excess[y_excess.index <= end_date]
+    v_df = v_df[v_df.index <= end_date]
+
+    print(f"Date range: {y_excess.index.min().date()} to {y_excess.index.max().date()}")
+    print(f"Number of dates: {len(y_excess)}")
+    print(f"Date range: {v_df.index.min().date()} to {v_df.index.max().date()}")
+    print(f"Number of dates: {len(v_df)}")
     
     # First Stage
     phi_dict = first_stage_regressions(v_df, y_excess, h)
@@ -124,14 +136,20 @@ def run_in_sample_pls(dataset_name, weighting="value-weighted", h=1):
     else:
         for key, value in phi_dict.items():
             print(f"{key}: {value:.4f}")
+    print("First stage completed.")
     
     # Second Stage
     F_series = second_stage_regressions(v_df, phi_dict)
     print("\nEstimated Latent Factor (F_t) Sample:")
     print(F_series.head())
+    print("Second stage completed.")
     
     # Third Stage
     third_model = third_stage_regression(F_series, y_excess, h)
+    print("\nThird-Stage Regression Summary:")
+
+    print(third_model.summary())
+    print("Third stage completed.")
     
     return {
         "phi": phi_dict,
@@ -141,7 +159,16 @@ def run_in_sample_pls(dataset_name, weighting="value-weighted", h=1):
         "y_excess": y_excess
     }
 
-def run_recursive_forecast(dataset_name, weighting="value-weighted", h=1, start_train_date=None):
+
+
+def run_recursive_forecast(
+    dataset_name, 
+    weighting="value-weighted", 
+    h=1, 
+    start_train_date='1934-02-01', 
+    end_train_date='1980-01-01',
+    end_forecast_date='2011-01-01'
+):
     """
     Implements a recursive (rolling-window) out-of-sample forecasting procedure.
     For each forecast date (after the training period), re-estimates the model using data 
@@ -162,12 +189,21 @@ def run_recursive_forecast(dataset_name, weighting="value-weighted", h=1, start_
     common_dates = v_df.index.intersection(y_excess.index).sort_values()
     v_df = v_df.loc[common_dates]
     y_excess = y_excess.loc[common_dates]
-    
-    if start_train_date is None:
-        n = len(v_df)
-        train_end = v_df.index[int(n * 0.6)]
-    else:
-        train_end = pd.to_datetime(start_train_date)
+
+    # if start_train_date is None:
+    #     n = len(v_df)
+    #     train_end = v_df.index[int(n * 0.6)]
+    # else:
+    #     train_end = pd.to_datetime(start_train_date)
+
+    v_df = v_df[v_df.index <= end_forecast_date]
+    y_excess = y_excess[y_excess.index <= end_forecast_date]
+
+    train_end = pd.to_datetime(end_forecast_date)
+
+    print(f"Start training date: {start_train_date}")
+    print(f"End training date: {train_end}")
+    print(f"End forecast date: {end_forecast_date}")
     
     forecast_dates = v_df.loc[train_end:].index
     forecasts = {}
