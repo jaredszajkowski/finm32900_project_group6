@@ -1,8 +1,12 @@
+import os
 import pandas as pd
 import numpy as np
 import statsmodels.api as sm
 from load_data import load_crsp_index, load_ken_french, load_and_compute_excess_returns
 import matplotlib.pyplot as plt
+script_dir = os.path.dirname(os.path.abspath(__file__))
+save_path = os.path.join(script_dir, "../reports/plots/")  # ✅ Correct relative path
+os.makedirs(save_path, exist_ok=True)
 
 def first_stage_regressions(v_df, y_series, h=1):
     """
@@ -223,4 +227,7 @@ def display_results(dataset_label, in_sample_results, recursive_results):
     plt.xlabel("Date")
     plt.ylabel("Excess Market Return")
     plt.legend()
+    dataset_label_clean = dataset_label.replace(" ", "_").replace("-", "_")
+    filename = f"Out_of_Sample_Forecasts_for_{dataset_label_clean}_Portfolio_Data.png"
+    plt.savefig(os.path.join(save_path, filename), dpi=300, bbox_inches='tight')
     plt.show()
