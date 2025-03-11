@@ -199,7 +199,7 @@ def run_recursive_forecast(
     v_df = v_df[v_df.index <= end_forecast_date]
     y_excess = y_excess[y_excess.index <= end_forecast_date]
 
-    train_end = pd.to_datetime(end_forecast_date)
+    train_end = pd.to_datetime(end_train_date)
 
     print(f"Start training date: {start_train_date}")
     print(f"End training date: {train_end}")
