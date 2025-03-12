@@ -5,7 +5,7 @@ import statsmodels.api as sm
 from load_data import load_crsp_index, load_ken_french, load_and_compute_excess_returns
 import matplotlib.pyplot as plt
 script_dir = os.path.dirname(os.path.abspath(__file__))
-save_path = os.path.join(script_dir, "../reports/plots/")  # ✅ Correct relative path
+save_path = os.path.join(script_dir, "../reports/plots/")  # Correct relative path
 os.makedirs(save_path, exist_ok=True)
 
 # DATA_DIR = config("DATA_DIR")
@@ -150,6 +150,15 @@ def run_in_sample_pls(dataset_name, weighting="value-weighted", h=1, end_date=No
 
     print(third_model.summary())
     print("Third stage completed.")
+
+    # Extract and format R-squared value
+    r_squared = f"{third_model.rsquared:.6f}"
+    r_squared_percent = f"{third_model.rsquared * 100:.2f}%"
+    adj_r_squared = f"{third_model.rsquared_adj:.6f}"
+    adj_r_squared_percent = f"{third_model.rsquared_adj * 100:.2f}%"
+
+    print(f"R-squared: {r_squared} or {r_squared_percent}")
+    print(f"Adjusted R-squared: {adj_r_squared} or {adj_r_squared_percent}")
     
     return {
         "phi": phi_dict,

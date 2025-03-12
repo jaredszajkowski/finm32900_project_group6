@@ -41,6 +41,14 @@ def load_fred_data():
 
     df = df['TB3MS'] / 1200
     df = df[(df.index >= START_DATE) & (df.index <= END_DATE)]
+    
+    # Define your date range to fill 0's
+    start_date = '1930-01-01'
+    end_date = '1933-12-31'
+
+    # Apply the replacement only for rows within the date range
+    df.loc[(df.index >= start_date) & (df.index <= end_date)] = df.loc[(df.index >= start_date) & (df.index <= end_date)].fillna(0)
+    
     df = df.dropna()
 
     return df
