@@ -41,8 +41,6 @@ Ilya Melnikov, Jared Szajkowski, Zac Johnson\
 \doublespacing
 \section{Out of Sample Regression Forecasts}
 
-TODO - text here
-
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{plots/Out_of_Sample_Forecasts_for_6_Portfolios_Portfolio_Data.png}
@@ -72,24 +70,37 @@ TODO - text here
 
 
 \doublespacing
-\section{Section 2}
+\section{Replication Overview}
 
-TODTODO - text here
-
+The replication of Table 1 from Kelly and Pruitt (2013) aimed to validate the 
+findings on market return predictability using book-to-market ratios. In this project we 
+tried reconstructuring the key univariate predictor by applying partial least squares (PLS) 
+to book-to-market ratios, with the goal of closely mirroring the original study’s results.
 
 \doublespacing
 \section{Successes}
-
-We have a great team. 
+Successfully accessed and processed CRSP and Compustat data to extract the relevant valuation 
+ratios and market return data.
+\\We have a great team. 
 
 
 
 \doublespacing
 \section{Challenges}
 
-Academic Paper doesn't explicitely say how to shift the data for regressions. 
+Data cleaning was time-intensive due to matching firm-level data from Compustat with 
+returns from CRSP while ensuring proper alignment of fiscal periods.Academic Paper doesn't 
+explicitely say how to shift the data for regressions. 
 We've spent a lot of time trying to figure out how to line up the data with to match the R Squared
 LaTex set up and getting used to took a bit of time. 
 
+
+\doublespacing
+\section{Data Sources}
+
+CRSP: Provided market returns, stock prices, and trading volume data.
+\\Compustat: Supplied firm-level fundamentals, including book-to-market ratios, 
+which are essential for constructing valuation-based predictors.
+\\Fama-French Factors: Used as a robustness check to compare return predictability against standard factor-based models.\par
 
 \end{document}
