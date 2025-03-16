@@ -6,6 +6,9 @@ from load_data import load_crsp_index, load_ken_french, load_and_compute_log_ret
 import matplotlib.pyplot as plt
 from sklearn.cross_decomposition import PLSRegression
 from settings import config
+script_dir = os.path.dirname(os.path.abspath(__file__))
+save_path = os.path.join(script_dir, "../reports/plots/")  # Correct relative path
+os.makedirs(save_path, exist_ok=True)
 
 DATA_DIR = config("DATA_DIR")
 START_DATE = config("START_DATE")
@@ -271,6 +274,8 @@ def display_results(dataset_label, in_sample_results, recursive_results):
     plt.ylabel("Excess Market Return")
     plt.legend()
     dataset_label_clean = dataset_label.replace(" ", "_").replace("-", "_")
+    filename = f"Out_of_Sample_Forecasts_for_{dataset_label_clean}_Portfolio_Data.png"
+    plt.savefig(os.path.join(save_path, filename), dpi=300, bbox_inches='tight')
     plt.show()
 
 #############################
