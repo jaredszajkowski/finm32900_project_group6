@@ -27,8 +27,8 @@ def first_stage_regressions(v_df, y_series, h=1):
         y_shifted = y_series.shift(-h).loc[v_i.index]
         # Only keep dates where both v_i and y_shifted are available
         valid = v_i.index.intersection(y_shifted.dropna().index)
-        if len(valid) < 10:
-            continue  # Skip if too few observations
+        #if len(valid) < 10:
+            #continue  # Skip if too few observations
         v_i = v_i.loc[valid]
         y_i = y_shifted.loc[valid]
         X = sm.add_constant(y_i)
@@ -72,7 +72,13 @@ def second_stage_regressions(v_df, phi_dict):
         except Exception as e:
             print(f"Error in second stage regression at time {t}: {e}")
     F_series = pd.Series(F_list, index=dates)
+    # Set frequency to match the input v_df if possible.
+    try:
+        F_series.index = pd.DatetimeIndex(F_series.index).asfreq(v_df.index.freq)
+    except Exception:
+        pass  # If unable to set frequency, leave as is.
     return F_series
+
 
 def third_stage_regression(F_series, y_series, h=1):
     """
@@ -173,7 +179,7 @@ def run_recursive_forecast(
     dataset_name, 
     weighting="value-weighted", 
     h=1, 
-    start_train_date='1934-02-01', 
+    start_train_date='1930-01-01', 
     end_train_date='1980-01-01',
     end_forecast_date='2011-01-01'
 ):
@@ -214,8 +220,8 @@ def run_recursive_forecast(
         train_idx = v_df.index < forecast_date
         v_train = v_df.loc[train_idx]
         y_train = y_excess.loc[train_idx]
-        if len(v_train) < 30:
-            continue
+        #if len(v_train) < 30:
+            #continue
         phi_dict = first_stage_regressions(v_train, y_train, h)
         if not phi_dict:
             continue
@@ -325,12 +331,22 @@ def run_in_sample_pls_annual(dataset_name, weighting="BE_FYt-1_to_ME_June_t", h=
       - Aggregates monthly log returns to annual log returns (by summing).
       - Selects a single snapshot for predictors from each year (using the June observation if available).
       - Uses h=1 on the annual series (i.e., forecasting next year's log return).
-    
-    Returns a dictionary with intermediate results.
+
+    Returns:
+        dict: A dictionary with intermediate results including:
+            - phi: Dictionary of first-stage estimated loadings.
+            - F_series: Series of estimated latent factors.
+            - third_model: The OLS regression result from the third stage.
+            - X: The aligned predictors DataFrame.
+            - y_excess: The aligned annual log returns Series.
     """
     # Compute monthly log returns and aggregate to annual
     monthly_excess = load_and_compute_log_returns()
     annual_excess = aggregate_to_annual_returns(monthly_excess)
+    # Convert annual_excess index to annual frequency (set to January 1 of each year)
+    annual_excess.index = pd.to_datetime(annual_excess.index).to_period('Y').to_timestamp()
+    # Group by the annual index to ensure one unique observation per year.
+    annual_excess = annual_excess.groupby(annual_excess.index).first()
     
     # Load monthly predictor data and select a snapshot for each year.
     ken_df = load_ken_french(dataset_name, weighting)
@@ -344,24 +360,29 @@ def run_in_sample_pls_annual(dataset_name, weighting="BE_FYt-1_to_ME_June_t", h=
     common_years = annual_X.index.intersection(annual_excess.index)
     if common_years.empty:
         raise ValueError("No common years found between predictors and log returns.")
+    # Subset both predictor and return series to the common years
     annual_X = annual_X.loc[common_years]
     annual_excess = annual_excess.loc[common_years]
-    end_date = pd.to_datetime(end_date)
-    annual_X = annual_X[annual_X.index <= end_date]
-    annual_excess = annual_excess[annual_excess.index <= end_date]
     
     print(f"[Annual In-Sample] Data from {annual_X.index.min().date()} to {annual_X.index.max().date()} (n = {len(annual_X)})")
+    annual_X = annual_X.loc[annual_X.index <= pd.to_datetime(end_date)]
+    annual_excess = annual_excess.loc[annual_excess.index <= pd.to_datetime(end_date)]
     
-    # Run the three-stage procedure on annual data
+    print(f"[Annual In-Sample] Data after end_date filtering: predictors from {annual_X.index.min().date()} to {annual_X.index.max().date()} (n = {len(annual_X)})")
+    print(f"[Annual In-Sample] Log returns from {annual_excess.index.min().date()} to {annual_excess.index.max().date()} (n = {len(annual_excess)})")
+    
+    # First Stage
     phi_dict = first_stage_regressions(annual_X, annual_excess, h)
     print("Annual First-Stage Estimated Loadings (phi_i):")
     for key, value in phi_dict.items():
         print(f"{key}: {value:.4f}")
     
+    # Second Stage
     F_series = second_stage_regressions(annual_X, phi_dict)
     print("\nAnnual Estimated Latent Factor (F_t) Sample:")
     print(F_series.head())
     
+    # Third Stage
     third_model = third_stage_regression(F_series, annual_excess, h)
     print("\n[Annual In-Sample] Third-Stage Regression Summary:")
     print(third_model.summary())
