@@ -109,7 +109,7 @@ def copy_file(origin_path, destination_path, mkdir=True):
 
 
 def task_config():
-    """Create empty directories for data and output if they don't exist"""
+    """Create empty directories for data, plots, and tables if they don't exist"""
     return {
         "actions": ["ipython ./src/settings.py"],
         "targets": [DATA_DIR, PLOTS_DIR, TABLES_DIR],
