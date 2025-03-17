@@ -109,12 +109,12 @@ def copy_file(origin_path, destination_path, mkdir=True):
 
 
 def task_config():
-    """Create empty directories for data, plots, and tables if they don't exist"""
+    """Create empty directories for data, output, plots, and tables if they don't exist"""
     return {
         "actions": ["ipython ./src/settings.py"],
-        "targets": [DATA_DIR, PLOTS_DIR, TABLES_DIR],
+        "targets": [DATA_DIR, OUTPUT_DIR, PLOTS_DIR, TABLES_DIR],
         "file_dep": ["./src/settings.py"],
-        "clean": [],
+        "clean": [],  # Don't clean these files by default.
     }
 
 
@@ -162,28 +162,28 @@ def task_pull_CRSP_index():
     }
 
 ##############################$
-## Load Data
+## Notebook Tasks
 ##############################$
 
 
-def task_summary_stats():
-    """ """
-    file_dep = ["./src/example_table.py"]
-    file_output = [
-        "example_table.tex",
-        "pandas_to_latex_simple_table1.tex",
-    ]
-    targets = [OUTPUT_DIR / file for file in file_output]
+# def task_summary_stats():
+#     """ """
+#     file_dep = ["./src/example_table.py"]
+#     file_output = [
+#         "example_table.tex",
+#         "pandas_to_latex_simple_table1.tex",
+#     ]
+#     targets = [OUTPUT_DIR / file for file in file_output]
 
-    return {
-        "actions": [
-            "ipython ./src/example_table.py",
-            "ipython ./src/pandas_to_latex_demo.py",
-        ],
-        "targets": targets,
-        "file_dep": file_dep,
-        "clean": True,
-    }
+#     return {
+#         "actions": [
+#             "ipython ./src/example_table.py",
+#             "ipython ./src/pandas_to_latex_demo.py",
+#         ],
+#         "targets": targets,
+#         "file_dep": file_dep,
+#         "clean": True,
+#     }
 
 
 # def task_chart_repo_rates():
