@@ -68,6 +68,8 @@ OUTPUT_DIR = config("OUTPUT_DIR")
 OS_TYPE = config("OS_TYPE")
 PUBLISH_DIR = config("PUBLISH_DIR")
 USER = config("USER")
+PLOTS_DIR = config("PLOTS_DIR")
+TABLES_DIR = config("CHARTS_DIR")
 
 ## Helpers for handling Jupyter Notebook tasks
 # fmt: off
@@ -110,7 +112,7 @@ def task_config():
     """Create empty directories for data and output if they don't exist"""
     return {
         "actions": ["ipython ./src/settings.py"],
-        "targets": [DATA_DIR, OUTPUT_DIR],
+        "targets": [DATA_DIR, OUTPUT_DIR, PLOTS_DIR, TABLES_DIR],
         "file_dep": ["./src/settings.py"],
         "clean": [],
     }
@@ -259,7 +261,7 @@ def task_example_plot():
 
 
 notebook_tasks = {
-    "01_Market_Expectations_In_The_Cross-Section_Of_Present_Values.ipynb": {
+    "01_Market_Expectations_In_The_Cross-Section_Of_Present_Values_Final.ipynb": {
         "file_dep": [],
         "targets": [],
     },
