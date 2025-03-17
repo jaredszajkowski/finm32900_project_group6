@@ -259,22 +259,24 @@ def run_recursive_forecast(
 def display_results(dataset_label, in_sample_results, recursive_results):
     """
     Displays the in-sample regression summary, out-of-sample R²,
-    and plots the actual vs. forecasted excess market returns.
+    and saves the monthly actual vs. forecasted excess market returns plot.
     """
     print(f"\n{'='*40}\nResults for {dataset_label} Portfolio Data\n{'='*40}")
     print("\nThird-Stage In-Sample Regression Summary:")
     print(in_sample_results["third_model"].summary())
     print(f"\nOut-of-Sample Predictive R²: {recursive_results['R2_oos']:.4f}")
-    
+
     plt.figure(figsize=(10, 6))
     plt.plot(recursive_results["actual_series"], label="Actual Excess Market Return")
     plt.plot(recursive_results["forecast_series"], label="Forecasted Excess Market Return", linestyle="--")
-    plt.title(f"Out-of-Sample Forecasts for {dataset_label} Portfolio Data")
+    plt.title(f"Monthly Out-of-Sample Forecasts for {dataset_label} Portfolio Data")
     plt.xlabel("Date")
     plt.ylabel("Excess Market Return")
     plt.legend()
+
+    # Save the plot with "monthly" in the filename
     dataset_label_clean = dataset_label.replace(" ", "_").replace("-", "_")
-    filename = f"Out_of_Sample_Forecasts_for_{dataset_label_clean}_Portfolio_Data.png"
+    filename = f"Monthly_Out_of_Sample_Forecasts_for_{dataset_label_clean}_Portfolio_Data.png"
     plt.savefig(os.path.join(save_path, filename), dpi=300, bbox_inches='tight')
     plt.show()
 
@@ -497,19 +499,23 @@ def run_recursive_forecast_annual(
 def display_results_annual(dataset_label, in_sample_results, forecast_series, actual_series, R2_oos):
     """
     Displays the in-sample OLS regression summary (annual) from the PLS predictor,
-    out-of-sample R², and plots the actual vs. forecasted annual log returns.
+    out-of-sample R², and saves the annual actual vs. forecasted log returns plot.
     """
     print(f"\n{'='*40}\n[Annual] Results for {dataset_label} Portfolio Data\n{'='*40}")
     print("\n[Annual] Third-Stage In-Sample Regression Summary:")
     print(in_sample_results["third_model"].summary())
     print(f"\n[Annual] Out-of-Sample Predictive R²: {R2_oos:.4f}")
-    
+
     plt.figure(figsize=(10, 6))
     plt.plot(actual_series, label="Actual Annual Log Return")
     plt.plot(forecast_series, label="Forecasted Annual Log Return", linestyle="--")
-    plt.title(f"[Annual] Out-of-Sample Forecasts for {dataset_label} Portfolio Data")
+    plt.title(f"Annual Out-of-Sample Forecasts for {dataset_label} Portfolio Data")
     plt.xlabel("Year")
     plt.ylabel("Annual Log Return")
     plt.legend()
+
+    # Save the plot with "annual" in the filename
     dataset_label_clean = dataset_label.replace(" ", "_").replace("-", "_")
+    filename = f"Annual_Out_of_Sample_Forecasts_for_{dataset_label_clean}_Portfolio_Data.png"
+    plt.savefig(os.path.join(save_path, filename), dpi=300, bbox_inches='tight')
     plt.show()
