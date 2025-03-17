@@ -120,34 +120,6 @@ def task_config():
 ## Pull Data
 ##################################
 
-# This is needed for risk free rate
-def task_pull_fred():
-    """ Pulls risk free rate information from FRED """
-    file_dep = [
-        "./src/settings.py",
-        "./src/pull_fred.py",
-    ]
-    targets = [
-        DATA_DIR / "fred.parquet",
-    ]
-
-    return {
-        "actions": [
-            "ipython ./src/settings.py",
-            "ipython ./src/pull_fred.py",
-        ],
-        "targets": targets,
-        "file_dep": file_dep,
-        "clean": [],  # Don't clean these files by default. The ideas
-        # is that a data pull might be expensive, so we don't want to
-        # redo it unless we really mean it. So, when you run
-        # doit clean, all other tasks will have their targets
-        # cleaned and will thus be rerun the next time you call doit.
-        # But this one wont.
-        # Use doit forget --all to redo all tasks. Use doit clean
-        # to clean and forget the cheaper tasks.
-    }
-
 # This is needed for F-F BE/ME portfolios
 def task_pull_ken_french_data():
     """Pull Data from Ken French's Website """
@@ -205,24 +177,6 @@ def task_summary_stats():
         "actions": [
             "ipython ./src/example_table.py",
             "ipython ./src/pandas_to_latex_demo.py",
-        ],
-        "targets": targets,
-        "file_dep": file_dep,
-        "clean": True,
-    }
-
-
-def task_example_plot():
-    """Example plots"""
-    file_dep = [Path("./src") / file for file in ["example_plot.py", "pull_fred.py"]]
-    file_output = ["example_plot.png"]
-    targets = [OUTPUT_DIR / file for file in file_output]
-
-    return {
-        "actions": [
-            # "date 1>&2",
-            # "time ipython ./src/example_plot.py",
-            "ipython ./src/example_plot.py",
         ],
         "targets": targets,
         "file_dep": file_dep,
