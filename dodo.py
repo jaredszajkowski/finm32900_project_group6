@@ -69,7 +69,7 @@ OS_TYPE = config("OS_TYPE")
 PUBLISH_DIR = config("PUBLISH_DIR")
 USER = config("USER")
 PLOTS_DIR = config("PLOTS_DIR")
-TABLES_DIR = config("CHARTS_DIR")
+TABLES_DIR = config("TABLES_DIR")
 
 ## Helpers for handling Jupyter Notebook tasks
 # fmt: off
