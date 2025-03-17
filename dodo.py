@@ -219,6 +219,10 @@ notebook_tasks = {
         "file_dep": [],
         "targets": [],
     },
+    "run_regressions.ipynb": {
+        "file_dep": [],
+        "targets": [],
+    },
 }
 
 

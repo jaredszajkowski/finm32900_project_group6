@@ -1,43 +1,56 @@
-# import pytest
-# import pandas as pd
-# import numpy as np
+import pytest
+import re
+import os
+from settings import config
 
-# # Import all summary tables (adjust based on your actual module structure)
-# from noteb.ipynb import (
-#     summary_df_6_monthly, summary_df_6_annual, 
-#     summary_df_25_monthly, summary_df_25_annual,
-#     summary_df_100_monthly, summary_df_100_annual
-# )
+DATA_DIR = config("DATA_DIR")
+TABLES_DIR = config("TABLES_DIR")
 
-# # Dictionary of summary tables to test
-# summary_tables = {
-#     "6 Portfolios Monthly": summary_df_6_monthly,
-#     "6 Portfolios Annual": summary_df_6_annual,
-#     "25 Portfolios Monthly": summary_df_25_monthly,
-#     "25 Portfolios Annual": summary_df_25_annual,
-#     "100 Portfolios Monthly": summary_df_100_monthly,
-#     "100 Portfolios Annual": summary_df_100_annual
-# }
+# List of LaTeX file names
+latex_files = [
+    "summary_table_6_monthly.tex",
+    "summary_table_6_annual.tex",
+    "summary_table_25_monthly.tex",
+    "summary_table_25_annual.tex",
+    "summary_table_100_monthly.tex",
+    "summary_table_100_annual.tex"
+]
 
-# @pytest.mark.parametrize("table_name, df", summary_tables.items())
-# def test_summary_table_exists(table_name, df):
-#     """Test that each summary DataFrame is loaded and not empty."""
-#     assert isinstance(df, pd.DataFrame), f"{table_name} is not a DataFrame"
-#     assert not df.empty, f"{table_name} is empty"
+# Define base directory for LaTeX files
+BASE_DIR = TABLES_DIR
 
-# @pytest.mark.parametrize("table_name, df", summary_tables.items())
-# def test_summary_table_structure(table_name, df):
-#     """Test that each summary DataFrame contains expected columns."""
-#     expected_columns = ["R2 In-Sample", "R2 Out-of-Sample"]
-#     missing_columns = [col for col in expected_columns if col not in df.columns]
-#     assert not missing_columns, f"{table_name} is missing columns: {missing_columns}"
+@pytest.mark.parametrize("filename", latex_files)
+def test_latex_table_presence(filename):
+    # Full file path
+    file_path = os.path.join(BASE_DIR, filename)
+    
+    # Debugging: Print the resolved absolute path
+    print(f"Checking file: {os.path.abspath(file_path)}")
 
-# @pytest.mark.parametrize("table_name, df", summary_tables.items())
-# def test_summary_table_expected_rows(table_name, df):
-#     """Check that expected portfolio categories exist in each summary DataFrame index."""
-#     expected_indices = [table_name.replace(" ", "-")]
-#     missing_rows = [idx for idx in expected_indices if idx not in df.index]
-#     assert not missing_rows, f"{table_name} is missing expected rows: {missing_rows}"
+    # Ensure file exists before proceeding
+    assert os.path.exists(file_path), f"File not found: {file_path}"
 
-# if __name__ == "__main__":
-#     pytest.main()
+    # Define keywords to check
+    keywords = ["R2 In-Sample", "R2 Out-of-Sample"]
+    
+    # Define a regex pattern to detect floating point numbers
+    number_pattern = r"-?\d+\.\d+"
+
+    # Read the LaTeX file
+    with open(file_path, "r") as f:
+        content = f.read()
+
+    # Check if keywords exist
+    for keyword in keywords:
+        assert keyword in content, f"Keyword '{keyword}' not found in {filename}."
+
+    # Check if at least one floating point number exists
+    numbers_found = re.findall(number_pattern, content)
+    assert len(numbers_found) > 0, f"No numerical values found in {filename}."
+
+if __name__ == "__main__":
+    # Debugging: Print all files in the directory
+    print(f"Files in {os.path.abspath(BASE_DIR)}:")
+    print(os.listdir(BASE_DIR))
+
+    pytest.main()
