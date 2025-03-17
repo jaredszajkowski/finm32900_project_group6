@@ -1,14 +1,14 @@
-import pull_fred
-from settings import config
-from pathlib import Path
-DATA_DIR = Path(config("DATA_DIR"))
-OUTPUT_DIR = Path(config("OUTPUT_DIR"))
+# import pull_fred
+# from settings import config
+# from pathlib import Path
+# DATA_DIR = Path(config("DATA_DIR"))
+# OUTPUT_DIR = Path(config("OUTPUT_DIR"))
 
-import numpy as np
-from matplotlib import pyplot as plt
-import seaborn as sns
+# import numpy as np
+# from matplotlib import pyplot as plt
+# import seaborn as sns
 
-sns.set()
+# sns.set()
 
 # df = pull_fred.load_fred(data_dir=DATA_DIR)
 
