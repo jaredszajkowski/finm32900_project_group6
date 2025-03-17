@@ -81,7 +81,7 @@ d["MANUAL_DATA_DIR"] = if_relative_make_abs(_config('MANUAL_DATA_DIR', default=P
 d["OUTPUT_DIR"] = if_relative_make_abs(_config('OUTPUT_DIR', default=Path('_output'), cast=Path))
 d["PUBLISH_DIR"] = if_relative_make_abs(_config('PUBLISH_DIR', default=Path('_output/publish'), cast=Path))
 d["PLOTS_DIR"] = if_relative_make_abs(_config('PLOTS_DIR', default=Path('reports/plots'), cast=Path))
-d["TABLES_DIR"] = if_relative_make_abs(_config('CHARTS_DIR', default=Path('reports/tables'), cast=Path))
+d["TABLES_DIR"] = if_relative_make_abs(_config('TABLES_DIR', default=Path('reports/tables'), cast=Path))
 
 # fmt: on
 
