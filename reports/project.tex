@@ -23,19 +23,23 @@ Ilya Melnikov, Jared Szajkowski, Zac Johnson\
 
 \doublespacing
 \begin{abstract}
-    Returns and cash flow growth for the aggregate U.S. stock market are highly and robustly predictable. 
-    Using a single factor extracted from the cross-section of book-to-market ratios, 
-    we find an out-of-sample return forecasting R\textsuperscript{2} of 13\% at the annual frequency (0.9\% monthly). 
-    We document similar out-of-sample predictability for returns on value, size, momentum, and industry portfolios. 
-    We present a model linking aggregate market expectations to disaggregated valuation ratios in a latent factor system. 
-    Spreads in value portfolios’ exposures to economic shocks are key to identifying predictability and are consistent 
-    with duration-based theories of the value premium.
+    From the abstract of "Market Expectations in the Cross-Section of Present Values", Kelly and Pruitt (2013):
+
+    Returns and cash flow growth for the aggregate U.S. stock market are highly and robustly predictable. Using 
+    a single factor extracted from the cross-section of book-to-market ratios, we find an out-of-sample return 
+    forecasting R\textsuperscript{2} of 13\% at the annual frequency (0.9\% monthly). We document similar out-of-sample 
+    predictability for returns on value, size, momentum, and industry portfolios. We present a model linking 
+    aggregate market expectations to disaggregated valuation ratios in a latent factor system. Spreads in value 
+    portfolios’ exposures to economic shocks are key to identifying predictability and are consistent with 
+    duration-based theories of the value premium.
+
 \end{abstract}
 
 \end{titlepage}
 
 \doublespacing
-\section{Out of Sample Regression Forecasts}
+\section{Out-Of-Sample Forecasted Values vs Actual Values}
+Here we present the plots with the out-of-sample forecasted values vs actual values for the 6, 25, and 100 portfolios.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{plots/Monthly_Out_of_Sample_Forecasts_for_6_Portfolios_Portfolio_Data.png}
@@ -81,6 +85,9 @@ Ilya Melnikov, Jared Szajkowski, Zac Johnson\
 
 \doublespacing
 \section{Regression Results}
+
+As follows are the regression results for the 6, 25, and 100 portfolios. The tables include the in-sample and 
+out-of-sample R-squared values for the monthly and annual regressions.
 
 % 6 Portfolios Monthly Regression Results
 \begin{table}[ht]
@@ -130,30 +137,107 @@ Ilya Melnikov, Jared Szajkowski, Zac Johnson\
 
 The replication of Table 1 from Kelly and Pruitt (2013) aimed to validate the 
 findings on market return predictability using book-to-market ratios. In this project we 
-tried reconstructing the key univariate predictor by applying partial least squares (PLS) 
-to book-to-market ratios, with the goal of closely mirroring the original study’s results.
+attempted to reconstruct the key univariate predictor by applying partial least squares (PLS) 
+regressions to the market returns and book-to-market ratios, with the goal of reproducing 
+the original study’s results.
 
 \doublespacing
 \section{Successes}
-Successfully accessed and processed CRSP and Compustat data to extract the relevant valuation 
-ratios and market return data.
-\\We have a great team. 
+We were successful in accessing, cleaning, and manipulating the required data sets, specifically 
+the Fama-French book-to-market portfolios and the CRSP value weighted market return data. 
+We were also successful in writing python code that we believe correctly set up PLS regression 
+equations and the recursive prediction.
 
 \doublespacing
 \section{Challenges}
 
-Data cleaning was time-intensive due to matching firm-level data from Compustat with 
-returns from CRSP while ensuring proper alignment of fiscal periods. Academic Paper doesn't 
-explicitly say how to shift the data for regressions. 
-We've spent a lot of time trying to figure out how to line up the data with to match the R Squared
-LaTex set up and getting used to it took a bit of time. 
+The initial data acquisition was straight-forward due to the simplicity of the data sources, but the
+challenge began when we attempted to align our data sets with those in the academic paper.
+
+From the paper:
+
+"Our annual forecasts consist of overlapping monthly observations
+that span 81 years, while our monthly forecasts use 972 nonoverlapping time-
+series observations."
+
+And then later:
+
+"Let time indices represent months. Consider a forecast for the return rτ +12
+that is realized over the 12-month period t + 1 to t + 12."
+
+This statement implies that the data is shifted by 1 month when running the regressions.
+
+However, there is confusion in the paper about the exact time period of the data shift, based on the
+following statement:
+
+"We use book-to-market ratios for Fama and French’s (1993) size- and value-
+sorted portfolios (in which U.S. stocks are divided into 6, 25, or 100 portfolios).
+Data files from Ken French’s website report monthly portfolio-level market
+equity value and annual portfolio book equity value, which we use to construct
+a monthly panel of portfolio book-to-market ratios. A book-to-market ratio in
+month t uses a portfolio’s total market capitalization at the end of month t and
+the latest observable annual book equity total for the portfolio. We assume that
+portfolio book equity in calendar year Y becomes observable after June of year
+Y + 1 following Fama and French (1993)."
+
+The above statement implies that there is a shift between the end of the fiscal year (when book equity
+would be "finalized") and June of the following year (when book equity would be observable), which could 
+be as much as 6 months. This is in direct conflict with the statement above that imply that the data is 
+shifted by only 1 month.
+
+There is further confusion as to which set of book-to-market ratios is used in the regressions. The Ken French data 
+provides 2 sets of ratios; one set is based on the end of the fiscal year (December), and the other is based on the end of June.
+
+As an example, from the 6 portfolios data, the book-to-market ratio options are as follows:
+
+
+6 : For portfolios formed in June of year t   
+
+Value Weight Average of:
+
+\[
+\frac{BE}{ME}
+\]
+
+Calculated for June of t to June of t+1 as:    
+
+\[
+\frac{\sum \left( ME(Mth) \times \frac{BE(Fiscal\ Year\ t-1)}{ME(Dec\ t-1)} \right)}
+     {\sum ME(Mth)}
+\]
+
+Where Mth is a month from June of t to June of t+1 and BE(Fiscal Year t-1) is adjusted for net stock issuance to Dec t-1 (1129 rows x 6 cols)
+
+
+7 : For portfolios formed in June of year t   
+
+Value Weight Average of:
+
+\[
+\frac{BE_FYt-1}{ME_June t}
+\]
+
+Calculated for June of t to June of t+1 as:    
+
+\[
+\frac{\sum \left( ME(Mth) \times \frac{BE(Fiscal\ Year\ t-1)}{ME(Jun\ t)} \right)}
+     {\sum ME(Mth)}
+\]
+
+Where Mth is a month from June of t to June of t+1 and BE(Fiscal Year t-1) is adjusted for net stock issuance to Jun t (1129 rows x 6 cols)
+
+
+
+There was signifiant time spent attempting to align the data sets and the regressions with the academic paper, but 
+ultimately we were unable to do so in a way that could reproduce the results from the paper.
+
+
+
 
 \doublespacing
 \section{Data Sources}
 
 CRSP: Provided market returns, stock prices, and trading volume data.
-\\Compustat: Supplied firm-level fundamentals, including book-to-market ratios, 
-which are essential for constructing valuation-based predictors.
-\\Fama-French Factors: Used as a robustness check to compare return predictability against standard factor-based models.
+Fama-French Factors: Used as a robustness check to compare return predictability against standard factor-based models.
 
 \end{document}
