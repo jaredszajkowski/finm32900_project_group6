@@ -55,7 +55,7 @@ Newey-West standard errors with 12 lags.
   - Split data set into train/test
   - Run PLS regressions (3 stages)
 * Match table 1 results using data up to 2011
-* Pull data through latest available (end of 2024?) and re-run all portfolios/regressions/etc.
+* Pull data through latest available (end of 2023) and re-run all portfolios/regressions/etc.
 * Provide summary statistics and charts that gives context to underlying data and results
 * Compare results from the paper vs results using current data
 
@@ -65,4 +65,7 @@ Newey-West standard errors with 12 lags.
 * Generate jupytger notebook
 * Develop unit tests
   - Confirm data is pulled correctly/exists
+  - Confirm data is being loaded correctly
+  - Test regressions
+  - Test importing of summary tables and plots
   - Confirm table 1 matches results
