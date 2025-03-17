@@ -1,14 +1,11 @@
 % !TeX root = project.tex
 \newcommand*{\PathToAssets}{../assets}%
 \newcommand*{\PathToOutput}{../_output}%
-% \newcommand*{\PathToBibFile}{bibliography.bib}%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% This file is compiled with XeLaTex.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[12pt]{article}
-%\documentclass[reqno]{amsart}
-%\documentclass[titlepage]{amsart}
 \usepackage{my_article_header}
 \usepackage{my_common_header}
 \usepackage{graphicx}
@@ -37,59 +34,126 @@ Ilya Melnikov, Jared Szajkowski, Zac Johnson\
 
 \end{titlepage}
 
-
 \doublespacing
 \section{Out of Sample Regression Forecasts}
-
-TODO - text here
-
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{plots/Out_of_Sample_Forecasts_for_6_Portfolios_Portfolio_Data.png}
-    \caption{Out-of-Sample Forecast for 6-Portfolios Portfolio Data}
-    \label{fig:forecast_chart}
+    \includegraphics[width=0.8\textwidth]{plots/Monthly_Out_of_Sample_Forecasts_for_6_Portfolios_Portfolio_Data.png}
+    \caption{Monthly Out-of-Sample Forecast for 6-Portfolios Portfolio Data}
+    \label{fig:forecast_6_monthly}
 \end{figure}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{plots/Out_of_Sample_Forecasts_for_25_Portfolios_Portfolio_Data.png}
-    \caption{Out-of-Sample Forecast for 25-Portfolios Portfolio Data}
-    \label{fig:forecast_chart}
+    \includegraphics[width=0.8\textwidth]{plots/Annual_Out_of_Sample_Forecasts_for_6_Portfolios_Portfolio_Data.png}
+    \caption{Annual Out-of-Sample Forecast for 6-Portfolios Portfolio Data}
+    \label{fig:forecast_6_annual}
 \end{figure}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{plots/Out_of_Sample_Forecasts_for_100_Portfolios_Portfolio_Data.png}
-    \caption{Out-of-Sample Forecast for 100-Portfolios Portfolio Data}
-    \label{fig:forecast_chart}
+    \includegraphics[width=0.8\textwidth]{plots/Monthly_Out_of_Sample_Forecasts_for_25_Portfolios_Portfolio_Data.png}
+    \caption{Monthly Out-of-Sample Forecast for 25-Portfolios Portfolio Data}
+    \label{fig:forecast_25_monthly}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{plots/Annual_Out_of_Sample_Forecasts_for_25_Portfolios_Portfolio_Data.png}
+    \caption{Annual Out-of-Sample Forecast for 25-Portfolios Portfolio Data}
+    \label{fig:forecast_25_annual}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{plots/Monthly_Out_of_Sample_Forecasts_for_100_Portfolios_Portfolio_Data.png}
+    \caption{Monthly Out-of-Sample Forecast for 100-Portfolios Portfolio Data}
+    \label{fig:forecast_100_monthly}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{plots/Annual_Out_of_Sample_Forecasts_for_100_Portfolios_Portfolio_Data.png}
+    \caption{Annual Out-of-Sample Forecast for 100-Portfolios Portfolio Data}
+    \label{fig:forecast_100_annual}
 \end{figure}
 
 
 \doublespacing
-\section{Out of Sample Regression Forecasts Results}
-\input{tables/summary_table.tex}
+\section{Regression Results}
 
+% 6 Portfolios Monthly Regression Results
+\begin{table}[ht]
+    \centering
+    \caption{6 Portfolios Monthly Regression Results}
+    \input{tables/summary_table_6_monthly.tex}
+\end{table}
+
+% 6 Portfolios Annual Regression Results
+\begin{table}[ht]
+    \centering
+    \caption{6 Portfolios Annual Regression Results}
+    \input{tables/summary_table_6_annual.tex}
+\end{table}
+
+% 25 Portfolios Monthly Regression Results
+\begin{table}[ht]
+    \centering
+    \caption{25 Portfolios Monthly Regression Results}
+    \input{tables/summary_table_25_monthly.tex}
+\end{table}
+
+% 25 Portfolios Annual Regression Results
+\begin{table}[ht]
+    \centering
+    \caption{25 Portfolios Annual Regression Results}
+    \input{tables/summary_table_25_annual.tex}
+\end{table}
+
+% 100 Portfolios Monthly Regression Results
+\begin{table}[ht]
+    \centering
+    \caption{100 Portfolios Monthly Regression Results}
+    \input{tables/summary_table_100_monthly.tex}
+\end{table}
+
+% 100 Portfolios Annual Regression Results
+\begin{table}[ht]
+    \centering
+    \caption{100 Portfolios Annual Regression Results}
+    \input{tables/summary_table_100_annual.tex}
+\end{table}
 
 
 \doublespacing
-\section{Section 2}
+\section{Replication Overview}
 
-TODTODO - text here
-
+The replication of Table 1 from Kelly and Pruitt (2013) aimed to validate the 
+findings on market return predictability using book-to-market ratios. In this project we 
+tried reconstructing the key univariate predictor by applying partial least squares (PLS) 
+to book-to-market ratios, with the goal of closely mirroring the original study’s results.
 
 \doublespacing
 \section{Successes}
-
-We have a great team. 
-
-
+Successfully accessed and processed CRSP and Compustat data to extract the relevant valuation 
+ratios and market return data.
+\\We have a great team. 
 
 \doublespacing
 \section{Challenges}
 
-Academic Paper doesn't explicitely say how to shift the data for regressions. 
+Data cleaning was time-intensive due to matching firm-level data from Compustat with 
+returns from CRSP while ensuring proper alignment of fiscal periods. Academic Paper doesn't 
+explicitly say how to shift the data for regressions. 
 We've spent a lot of time trying to figure out how to line up the data with to match the R Squared
-LaTex set up and getting used to took a bit of time. 
+LaTex set up and getting used to it took a bit of time. 
 
+\doublespacing
+\section{Data Sources}
+
+CRSP: Provided market returns, stock prices, and trading volume data.
+\\Compustat: Supplied firm-level fundamentals, including book-to-market ratios, 
+which are essential for constructing valuation-based predictors.
+\\Fama-French Factors: Used as a robustness check to compare return predictability against standard factor-based models.
 
 \end{document}
